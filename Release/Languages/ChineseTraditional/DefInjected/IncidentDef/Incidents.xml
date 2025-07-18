@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: ally join -->
+  <Reunion_AllyJoin.label>隊友加入</Reunion_AllyJoin.label>
+  <!-- EN: Reunion: {PAWN_nameDef} -->
+  <Reunion_AllyJoin.letterLabel>重聚：{PAWN_nameDef}</Reunion_AllyJoin.letterLabel>
+  <!-- EN: A {PAWN_title} named {PAWN_nameDef} has arrived and is joining the colony. -->
+  <Reunion_AllyJoin.letterText>一個叫{PAWN_nameDef}的{PAWN_title}抵達加入了殖民地。</Reunion_AllyJoin.letterText>
+  
+  <!-- EN: ally refugee pod -->
+  <Reunion_AllyRefugeePod.label>隊友救生艙</Reunion_AllyRefugeePod.label>
+  <!-- EN: Reunion: {PAWN_nameDef} -->
+  <Reunion_AllyRefugeePod.letterLabel>重聚：{PAWN_nameDef}</Reunion_AllyRefugeePod.letterLabel>
+  <!-- EN: A {PAWN_title} named {PAWN_nameDef} has crashed nearby in a transport pod. -->
+  <Reunion_AllyRefugeePod.letterText>一個叫{PAWN_nameDef}的{PAWN_title}在附近用運輸艙墜毀著陸了。</Reunion_AllyRefugeePod.letterText>
+  
+</LanguageData>

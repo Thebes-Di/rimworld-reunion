@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: questDescription->A prisoner being held by [siteFaction_name] has managed to steal a radio and call you!\n\n[prisoner_nameDef] is being held at a camp near [map_definite][underArmedGuard]. Rescue [prisoner_objective], and [prisoner_pronoun] will join your colony. [prisoner_pronoun] is a [prisoner_age]-year-old [prisoner_title]. [prisoner_pronoun] says that [allSitePartsDescriptionsExceptFirst][formerColonistInfo][prisonerFullRelationInfo] -->
+  <Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.0>questDescription->一個被[siteFaction_name]囚禁的囚犯設法搞到了無線電並聯絡到了你！\n[prisoner_nameDef]被[underArmedGuard]囚禁在 [map_definite]附近的牢房裡。解救[prisoner_objective]，[prisoner_pronoun]就會加入你的殖民地。[prisoner_pronoun]是一名[prisoner_age]歲的[prisoner_title]。[prisoner_pronoun]提到[allSitePartsDescriptionsExceptFirst][formerColonistInfo][prisonerFullRelationInfo]</Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.0>
+  <!-- EN: formerColonistInfo(priority=1)->\n\n[prisoner_formerlyColonistInfo] -->
+  <Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.1>formerColonistInfo(priority=1)->\n\n[prisoner_formerlyColonistInfo]</Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.1>
+  <!-- EN: formerColonistInfo-> -->
+  <Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.2>formerColonistInfo-></Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.2>
+  <!-- EN: underArmedGuard(allowViolentQuests==true,priority=1)-> under armed guard -->
+  <Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.3>underArmedGuard(allowViolentQuests==true,priority=1)->戒備森嚴地</Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.3>
+  <!-- EN: underArmedGuard-> -->
+  <Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.4>underArmedGuard-></Reunion_PrisonerRescue.questDescriptionRules.rulesStrings.4>
+  <!-- EN: questName->Reunion: [prisoner_nameDef] -->
+  <Reunion_PrisonerRescue.questNameRules.rulesStrings.0>questName->重聚：[prisoner_nameDef]</Reunion_PrisonerRescue.questNameRules.rulesStrings.0>
+  
+  
+</LanguageData>

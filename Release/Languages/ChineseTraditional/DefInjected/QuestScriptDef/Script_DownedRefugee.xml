@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: questDescription->[refugee_nameDef] contacts you and requests help. [refugee_pronoun] is wounded and unable to move.\n\n[refugee_nameDef] is a [refugee_age]-year-old [refugee_title]. [refugee_pronoun] promises to join you if you rescue [refugee_objective].\n\n[refugee_nameDef] says that [allSitePartsDescriptionsExceptFirst][pawnInvolvedInQuestInfo] -->
+  <Reunion_DownedRefugee.questDescriptionRules.rulesStrings.0>questDescription->[refugee_nameDef]設法聯絡上了你並請求你的保護。[refugee_pronoun]受傷了，並且無法移動。\n[refugee_nameDef]是一名[refugee_age]歲的[refugee_title]。[refugee_pronoun]保證會在營救後加入。\n[refugee_nameDef]提到[allSitePartsDescriptionsExceptFirst][pawnInvolvedInQuestInfo]</Reunion_DownedRefugee.questDescriptionRules.rulesStrings.0>
+  <!-- EN: pawnInvolvedInQuestInfo(priority=1)->[refugee_pawnInvolvedInQuestInfo] -->
+  <Reunion_DownedRefugee.questDescriptionRules.rulesStrings.1>pawnInvolvedInQuestInfo(priority=1)->[refugee_pawnInvolvedInQuestInfo]</Reunion_DownedRefugee.questDescriptionRules.rulesStrings.1>
+  <!-- EN: pawnInvolvedInQuestInfo-> -->
+  <Reunion_DownedRefugee.questDescriptionRules.rulesStrings.2>pawnInvolvedInQuestInfo-></Reunion_DownedRefugee.questDescriptionRules.rulesStrings.2>
+  <!-- EN: questName->Reunion: [refugee_nameDef] -->
+  <Reunion_DownedRefugee.questNameRules.rulesStrings.0>questName->重聚：[refugee_nameDef]</Reunion_DownedRefugee.questNameRules.rulesStrings.0>
+  <!-- EN: Quest expired: [resolvedQuestName] -->
+  <Reunion_DownedRefugee.LetterLabelQuestExpired.slateRef>任務已失效：[resolvedQuestName]</Reunion_DownedRefugee.LetterLabelQuestExpired.slateRef>
+  <!-- EN: [refugee_nameDef]'s signal has been lost, and [refugee_pronoun] can no longer be rescued. The quest [resolvedQuestName] has expired. -->
+  <Reunion_DownedRefugee.LetterTextQuestExpired.slateRef>我們失去了[refugee_nameDef]的聯絡信號， 再也無法救援[refugee_pronoun]。 任務[resolvedQuestName]已經失效。</Reunion_DownedRefugee.LetterTextQuestExpired.slateRef>
+    
+</LanguageData>

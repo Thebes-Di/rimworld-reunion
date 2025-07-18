@@ -12,6 +12,7 @@
     <requiresFaction>true</requiresFaction>
     <!-- <increasesPopulation>true</increasesPopulation> -->
     <handlesWorldObjectTimeoutInspectString>true</handlesWorldObjectTimeoutInspectString>
+    <gravShipsCanLandOn>true</gravShipsCanLandOn>
     <tags>
       <li>Reunion_PrisonerRescue</li>
     </tags>

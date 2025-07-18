@@ -36,11 +36,16 @@ namespace Kyrun.Reunion
 
             Find.LetterStack.ReceiveLetter(baseLetterLabel, baseLetterText, def.letterDef, new LookTargets(pawn));
 
-            ActiveTransporterInfo activeDropPodInfo = new ActiveTransporterInfo();
-            activeDropPodInfo.innerContainer.TryAddRangeOrTransfer(things, true, false);
-            activeDropPodInfo.openDelay = 180;
-            activeDropPodInfo.leaveSlag = true;
-            DropPodUtility.MakeDropPodAt(intVec, map, activeDropPodInfo);
+            ActiveTransporterInfo activeTransporterInfo = new ActiveTransporterInfo();
+            activeTransporterInfo.innerContainer.TryAddRangeOrTransfer(things, true, false);
+            activeTransporterInfo.openDelay = 180;
+            activeTransporterInfo.leaveSlag = true;
+			DropPodUtility.MakeDropPodAt(intVec, map, activeTransporterInfo);
+            GameComponent.ListAllySpawned.Remove(pawn.GetUniqueLoadID());
+            if (pawn.wasLeftBehindStartingPawn)
+            {
+                pawn.wasLeftBehindStartingPawn = false;
+            }
 
             GameComponent.TryScheduleNextEvent(ScheduleMode.Forced);
             return true;

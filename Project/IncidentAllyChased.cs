@@ -112,6 +112,14 @@ namespace Kyrun.Reunion
             {
                 GameComponent.ReturnToAvailable(pawn);
             }
+            foreach (var pawn2 in this.pawns.FindAll((Pawn pawn3) => pawn3.Faction == Faction.OfPlayer && GameComponent.ListAllySpawned.Contains(pawn3.GetUniqueLoadID())))
+            {
+                GameComponent.ListAllySpawned.Remove(pawn2.GetUniqueLoadID());
+                if (pawn2.wasLeftBehindStartingPawn)
+                {
+                    pawn2.wasLeftBehindStartingPawn = false;
+                }
+            }
 
             if (quest.State == QuestState.EndedOfferExpired) saveByReference = true;
             else GameComponent.TryScheduleNextEvent(ScheduleMode.Forced);

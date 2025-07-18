@@ -11,6 +11,7 @@
     <forceExitAndRemoveMapCountdownDurationDays>16</forceExitAndRemoveMapCountdownDurationDays>
     <!-- <increasesPopulation>true</increasesPopulation> -->
     <handlesWorldObjectTimeoutInspectString>true</handlesWorldObjectTimeoutInspectString>
+    <gravShipsCanLandOn>true</gravShipsCanLandOn>
     <tags>
       <li>Reunion_DownedRefugee</li>
     </tags>

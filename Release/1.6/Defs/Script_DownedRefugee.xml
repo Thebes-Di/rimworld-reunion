@@ -38,7 +38,10 @@
         <li Class="QuestNode_SubScript">
           <def>Util_AdjustPointsForDistantFight</def>
         </li>
-        <li Class="QuestNode_GetMap" />
+
+        <li Class="QuestNode_GetMap">
+          <canBeSpace>true</canBeSpace>
+        </li>
 
         <li Class="QuestNode_RandomNode">
           <nodes>
@@ -60,6 +63,52 @@
         <li Class="QuestNode_GetSiteTile">
           <storeAs>siteTile</storeAs>
           <preferCloserTiles>true</preferCloserTiles>
+          <selectLandmarkChance>0.5</selectLandmarkChance>
+          <allowedLandmarks>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Oasis</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Lake</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">LakeWithIsland</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">LakeWithIslands</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Pond</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">DryLake</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">ToxicLake</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Wetland</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">HotSprings</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Archipelago</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">CoastalIsland</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Peninsula</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Bay</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Fjord</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">CoastalAtoll</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Iceberg</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Valley</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Cavern</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Chasm</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Crevasse</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Plateau</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">IceDunes</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Cliffs</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Hollow</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Basin</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">TerraformingScar</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">LavaLake</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">LavaCrater</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">LavaFlow</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Dunes</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Ruins</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">FrozenRuins</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientSmokeVent</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientToxVent</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientHeatVent</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientQuarry</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AbandonedColonyTribal</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AbandonedColonyOutlander</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientLaunchSite</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">Harbor</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientGarrison</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientWarehouse</li>
+            <li MayRequire="Ludeon.RimWorld.Odyssey">AncientChemfuelRefinery</li>
+          </allowedLandmarks>
         </li>
 
         <li Class="QuestNode_ViolentQuestsAllowed">

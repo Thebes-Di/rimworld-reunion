@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: questDescription->A [joiner_age]-year-old [joiner_title] named [joiner_nameDef] is calling from nearby. [joiner_pronoun] is being chased by [enemyFaction_pawnsPlural] from [enemyFaction_name]!\n\n[joiner_pronoun] begs for safety and offers to join you at [map_definite].[joiner_relationInfo]\n\nIf you accept, you'll have to fight off the [enemyFaction_pawnsPluralDef] on [joiner_possessive] tail. The group of [enemyFaction_pawnsPlural] is composed of: \n\n[raid/raidPawnKinds] -->
+  <Reunion_AllyChased.questDescriptionRules.rulesStrings.0>questDescription->一个名叫[joiner_nameDef]的[joiner_age]岁[joiner_title]正在附近呼叫。[joiner_pronoun]正在被[enemyFaction_name]的[enemyFaction_pawnsPlural]追杀！\n[joiner_pronoun]请求你的保护并答应可以在[map_definite]加入你。[joiner_relationInfo] \n如果你接受了任务，你必须处理掉跟着[joiner_possessive]的[enemyFaction_pawnsPluralDef]。[enemyFaction_pawnsPlural]的组成如下：\n\n[raid/raidPawnKinds]</Reunion_AllyChased.questDescriptionRules.rulesStrings.0>
+  <!-- EN: questName->Reunion: [runnerIndef] -->
+  <Reunion_AllyChased.questNameRules.rulesStrings.0>questName->重聚：[runnerIndef]</Reunion_AllyChased.questNameRules.rulesStrings.0>
+  <!-- EN: runnerIndef->[joiner_nameIndef] -->
+  <Reunion_AllyChased.questNameRules.rulesStrings.1>runnerIndef->[../joiner_nameIndef]</Reunion_AllyChased.questNameRules.rulesStrings.1>
+  <!-- EN: {BASELABEL} chasing [../joiner_nameDef] -->
+  <Reunion_AllyChased.root.nodes.Delay-0.node.parms.customLetterLabel.value.slateRef>{BASELABEL}追捕[../joiner_nameDef]</Reunion_AllyChased.root.nodes.Delay-0.node.parms.customLetterLabel.value.slateRef>
+  <!-- EN: {BASETEXT}\n              \nThe [enemyFaction_pawnsPlural] have come to get [../joiner_nameDef]. -->
+  <Reunion_AllyChased.root.nodes.Delay-0.node.parms.customLetterText.value.slateRef> {BASETEXT}\n\n[enemyFaction_pawnsPlural]为了捕捉[../joiner_nameDef]。</Reunion_AllyChased.root.nodes.Delay-0.node.parms.customLetterText.value.slateRef>
+  
+  <!-- EN: rewardDescription->a [joiner_age]-year-old [joiner_title] named [joiner_nameDef] will arrive and join you. [joiner_relationInfo] -->
+  <Reunion_AllyJoinerWalkIn.questDescriptionRules.rulesStrings.0>rewardDescription->一个名叫[joiner_nameDef]的[joiner_age]岁[joiner_title]将抵达并加入你的殖民地。[joiner_relationInfo]</Reunion_AllyJoinerWalkIn.questDescriptionRules.rulesStrings.0>
+  
+</LanguageData>

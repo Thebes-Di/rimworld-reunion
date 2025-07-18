@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+<!-- 1.0 -->
+  <!-- EN: Minimum Probability To Spawn (X/100) -->
+  <Reunion.MinimumProbability>產生的最低機率值 (X/100)</Reunion.MinimumProbability>
+  <!-- EN: Probability To Increment After Fail To Spawn (X/100) -->
+  <Reunion.ProbabilityIncrementStep>生成失敗後增加的機率值 (X/100)</Reunion.ProbabilityIncrementStep>
+<!-- End 1.0 -->
+  <!-- EN: Minimum Days Between Events -->
+  <Reunion.MinDaysBetweenEvents>最小事件間隔日期</Reunion.MinDaysBetweenEvents>
+  <!-- EN: Maximum Days Between Events -->
+  <Reunion.MaxDaysBetweenEvents>最大事件間隔日期</Reunion.MaxDaysBetweenEvents>
+  <!-- EN: Allow "Wanderer Joins" Event -->
+  <Reunion.AllowEventWandererJoins>允許「流浪者加入」事件</Reunion.AllowEventWandererJoins>
+  <!-- EN: Allow "Refugee Pod Crash" Event -->
+  <Reunion.AllowEventRefugeePodCrash>允許「逃生艙墜毀」事件</Reunion.AllowEventRefugeePodCrash>
+  <!-- EN: Allow "Refugee Chased" Event -->
+  <Reunion.AllowEventRefugeeChased>允許「難民逃亡」事件</Reunion.AllowEventRefugeeChased>
+  <!-- EN: Allow "Prisoner Rescue" Event -->
+  <Reunion.AllowEventPrisonerRescue>允許「囚犯營救」事件</Reunion.AllowEventPrisonerRescue>
+  <!-- EN: Allow "Downed Refugee" Event -->
+  <Reunion.AllowEventDownedRefugee>允許「等待救援的難民」事件</Reunion.AllowEventDownedRefugee>
+  <!-- EN: Enable Off-Map Events When Single Pawn -->
+  <Reunion.EnableHarderSolo>單人也可觸發地圖外事件</Reunion.EnableHarderSolo>
+</LanguageData>

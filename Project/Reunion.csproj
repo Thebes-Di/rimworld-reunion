@@ -35,7 +35,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4518" />
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4523" />
     <PackageReference Include="Lib.Harmony" Version="2.3.6" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -43,6 +43,6 @@
     </PackageReference>
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy &quot;$(SolutionDir)$(Configuration)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\Reunion&quot; /s /i /y&#xD;&#xA;start steam://rungameid/294100" />
+    <Exec Command="xcopy &quot;$(SolutionDir)$(Configuration)&quot; &quot;E:\steam\steamapps\common\RimWorld\Mods\Reunion&quot; /s /i /y&#xD;&#xA;start steam://rungameid/294100" />
   </Target>
 </Project>

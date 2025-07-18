@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  
+  <!-- EN: (Reunion) Ally -->
+  <ReunionCharacter.degreeDatas.Reunion_Ally.label>(Reunion) Ally</ReunionCharacter.degreeDatas.Reunion_Ally.label>
+  <!-- EN: [PAWN_nameDef] is an ally who will one day join your faction. -->
+  <ReunionCharacter.degreeDatas.Reunion_Ally.description>[PAWN_nameDef]是一名終有一天會加入你陣營的盟友。</ReunionCharacter.degreeDatas.Reunion_Ally.description>
+  
+</LanguageData>
