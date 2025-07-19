@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<Operation Class="PatchOperationAdd">
+		<xpath>*/TipSetDef[defName = "GameplayTips"]/tips</xpath>
+		<value>
+			<li>适当降低难度有益身心健康。</li>
+		</value>
+	</Operation>
+
+</Patch>
