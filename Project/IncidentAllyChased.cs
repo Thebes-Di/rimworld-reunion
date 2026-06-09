@@ -29,20 +29,30 @@ namespace Kyrun.Reunion
                 return;
             }
 
-            Slate slate = QuestGen.slate;
-
-            if (storeAs.GetValue(slate) != null)
+            //Add quest active tag
+            GameComponent.IsQuestActive = true;
+            try
             {
-                QuestGen.slate.Set(storeAs.GetValue(slate), pawn, false);
-            }
-            if (addToList.GetValue(slate) != null)
-            {
-                QuestGenUtility.AddToOrMakeList(QuestGen.slate, addToList.GetValue(slate), pawn);
-            }
-            QuestGen.AddToGeneratedPawns(pawn);
+                Slate slate = QuestGen.slate;
 
-            // Vanilla code: adds the pawn to the World.
-            // For this mod, remove them from the available list and put them in the spawned list instead.
+                if (storeAs.GetValue(slate) != null)
+                {
+                    QuestGen.slate.Set(storeAs.GetValue(slate), pawn, false);
+                }
+                if (addToList.GetValue(slate) != null)
+                {
+                    QuestGenUtility.AddToOrMakeList(QuestGen.slate, addToList.GetValue(slate), pawn);
+                }
+                QuestGen.AddToGeneratedPawns(pawn);
+
+                // Vanilla code: adds the pawn to the World.
+                // For this mod, remove them from the available list and put them in the spawned list instead.
+            }
+            catch
+            {
+                Util.Error("Failed to generate AllyChased quest");
+                GameComponent.IsQuestActive = false;
+            }
         }
 
         protected override bool TestRunInt(Slate slate)
@@ -112,9 +122,11 @@ namespace Kyrun.Reunion
             {
                 GameComponent.ReturnToAvailable(pawn);
             }
+
+            //Remove wasLeftBehindStartingPawn when pawn has spawned
             foreach (var pawn2 in this.pawns.FindAll((Pawn pawn3) => pawn3.Faction == Faction.OfPlayer && GameComponent.ListAllySpawned.Contains(pawn3.GetUniqueLoadID())))
             {
-                GameComponent.ListAllySpawned.Remove(pawn2.GetUniqueLoadID());
+
                 if (pawn2.wasLeftBehindStartingPawn)
                 {
                     pawn2.wasLeftBehindStartingPawn = false;
@@ -123,6 +135,9 @@ namespace Kyrun.Reunion
 
             if (quest.State == QuestState.EndedOfferExpired) saveByReference = true;
             else GameComponent.TryScheduleNextEvent(ScheduleMode.Forced);
+
+            //Clear quest active tag
+            GameComponent.IsQuestActive = false;
         }
 
 

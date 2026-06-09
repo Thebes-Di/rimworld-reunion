@@ -135,6 +135,8 @@ namespace Kyrun.Reunion
             // As mentioned above, if recruited, schedule will already have fired on DoRecruit.
             // If not recruited for whatever reason (likely dead, according to tests): schedule it HERE!
             else if (GameComponent.NextEventTick == 0) GameComponent.TryScheduleNextEvent();
+            //Clear quest active tag
+            GameComponent.IsQuestActive = false;
         }
     }
 }

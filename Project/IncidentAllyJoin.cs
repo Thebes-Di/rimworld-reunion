@@ -28,7 +28,8 @@ namespace Kyrun.Reunion
             TaggedString baseLetterText = def.letterText.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn, "PAWN", true);
 
             Find.LetterStack.ReceiveLetter(baseLetterLabel, baseLetterText, def.letterDef, new LookTargets(pawn));
-            GameComponent.ListAllySpawned.Remove(pawn.GetUniqueLoadID());
+
+            //Remove wasLeftBehindStartingPawn when pawn has spawned
             if (pawn.wasLeftBehindStartingPawn)
             {
                 pawn.wasLeftBehindStartingPawn = false;

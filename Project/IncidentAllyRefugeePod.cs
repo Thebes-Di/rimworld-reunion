@@ -41,7 +41,8 @@ namespace Kyrun.Reunion
             activeTransporterInfo.openDelay = 180;
             activeTransporterInfo.leaveSlag = true;
 			DropPodUtility.MakeDropPodAt(intVec, map, activeTransporterInfo);
-            GameComponent.ListAllySpawned.Remove(pawn.GetUniqueLoadID());
+
+            //Remove wasLeftBehindStartingPawn when pawn has spawned
             if (pawn.wasLeftBehindStartingPawn)
             {
                 pawn.wasLeftBehindStartingPawn = false;

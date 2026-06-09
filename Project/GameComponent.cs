@@ -22,10 +22,27 @@ namespace Kyrun.Reunion
 
         // Variables
         public static int NextEventTick = 0;
+        public static int LastRecoveryCheckTick = 0;
 
         // Trait-related
         public const string TRAIT_DEF_CHARACTER = "ReunionCharacter";
         public const int TRAIT_DEGREE_ALLY = 3;
+
+        //Quest active check
+        public static bool IsQuestActive = false;
+
+        public static HediffDef m_ReunionImmunity;
+        public static HediffDef ReunionImmunity
+        {
+            get
+            {
+                if (m_ReunionImmunity == null)
+                {
+                    m_ReunionImmunity = HediffDef.Named("ReunionImmunity");
+                }
+                return m_ReunionImmunity;
+            }
+        }
 
         static TraitDef m_TraitDefCharacter;
         public static TraitDef TraitDef_Character
@@ -105,7 +122,13 @@ namespace Kyrun.Reunion
             if (ListAllyAvailable == null) ListAllyAvailable = new List<Pawn>();
             if (ListAllySpawned == null) ListAllySpawned = new List<string>();
 
-            if (NextEventTick == 0 && ListAllyAvailable.Count > 0)
+            if (NextEventTick == -1 && !IsQuestActive)
+            {
+                Util.Warn("NextEventTick is -1 but no active quest found. Resetting.");
+                NextEventTick = 0;
+                TryScheduleNextEvent(ScheduleMode.Forced);
+            }
+            else if (NextEventTick == 0 && ListAllyAvailable.Count > 0)
             {
                 Util.Msg("No events scheduled, but there is at least 1 available pawn.");
                 TryScheduleNextEvent(ScheduleMode.Normal);
@@ -451,6 +474,26 @@ namespace Kyrun.Reunion
             // End repatching MVCF
 
             base.ExposeData();
+        }
+
+        //Prevent NextEventTick stuck in -1
+        public static void CheckAndRecoverIfStuck(int currentTick)
+        {
+            if (currentTick - LastRecoveryCheckTick < GenDate.TicksPerDay) return;
+            LastRecoveryCheckTick = currentTick;
+
+            // only recovery when stuck in -1
+            if (NextEventTick != -1 || IsQuestActive) return;
+
+            if (ListAllyAvailable.Count == 0)
+            {
+                NextEventTick = 0;
+                return;
+            }
+
+            Util.Warn("CheckAndRecoverIfStuck: Detected stuck state. Rescheduling.");
+            NextEventTick = 0;
+            TryScheduleNextEvent(ScheduleMode.Forced);
         }
     }
 }
