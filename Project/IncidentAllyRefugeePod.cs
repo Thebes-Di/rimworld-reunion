@@ -30,7 +30,7 @@ namespace Kyrun.Reunion
             IntVec3 intVec = DropCellFinder.RandomDropSpot(map);
             pawn.guest.getRescuedThoughtOnUndownedBecauseOfPlayer = true;
             //pawn.mindState.WillJoinColonyIfRescued = true; // will trigger LetterRescueQuestFinished which is wrong. We want LetterRescueeJoins
-
+            
             TaggedString baseLetterLabel = def.letterLabel.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn, "PAWN", true);
             TaggedString baseLetterText = def.letterText.Formatted(pawn.Named("PAWN")).AdjustedFor(pawn, "PAWN", true);
 

@@ -248,5 +248,33 @@ namespace Kyrun.Reunion
                 Widgets.EndGroup();
             }
         }
+
+        //Force pawn join player faction in refugee pod event
+        [HarmonyPatch(typeof(Pawn_GuestTracker), "Notify_PawnUndowned")]
+        public static class Patch_Notify_PawnUndowned_RefugeePod
+        {
+            private static readonly AccessTools.FieldRef<Pawn_GuestTracker, Pawn> pawnFieldRef =
+                AccessTools.FieldRefAccess<Pawn_GuestTracker, Pawn>("pawn");
+
+            static bool Prefix(Pawn_GuestTracker __instance)
+            {
+                Pawn pawn = pawnFieldRef(__instance);
+
+                if (GameComponent.ListAllySpawned.Contains(pawn.GetUniqueLoadID()))
+                {
+                    if (pawn.Faction != Faction.OfPlayer)
+                    {
+                        pawn.SetFaction(Faction.OfPlayer);
+                        Find.LetterStack.ReceiveLetter(
+                            "LetterLabelRescueeJoins".Translate(pawn.Named("PAWN")),
+                            "LetterRescueeJoins".Translate(pawn.Named("PAWN")),
+                            LetterDefOf.PositiveEvent, pawn);
+                        Util.Msg($"Pawn {pawn.Name} is ally, force joined player faction");
+                    }
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }

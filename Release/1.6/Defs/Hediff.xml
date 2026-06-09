@@ -2,7 +2,7 @@
 <Defs>
     <HediffDef>
         <defName>ReunionImmunity</defName>
-        <label>reunion immunit</label>
+        <label>reunion immunity</label>
         <description>Immune to temperature.</description>
         <scenarioCanAdd>false</scenarioCanAdd>
         <everCurableByItem>false</everCurableByItem>

@@ -52,7 +52,7 @@ namespace Kyrun.Reunion
                 //Add immune to temperature hediff
                 if (pawn.health != null)
                 {
-                    var immunity = HediffMaker.MakeHediff(GameComponent.m_ReunionImmunity, pawn);
+                    var immunity = HediffMaker.MakeHediff(GameComponent.ReunionImmunity, pawn);
                     immunity.Severity = 1f;
                     pawn.health.AddHediff(immunity);
                 }
@@ -93,22 +93,30 @@ namespace Kyrun.Reunion
             base.PostMapGenerate(map);
 
             //Remove immune to temperature hediff
-            Site site = Find.World.worldObjects.Sites.FirstOrDefault(s => s.Map == map);
-            if (site != null)
+            List<Pawn> allPawns = (List<Pawn>)map.mapPawns.AllPawnsSpawned;
+            Pawn foundPawn = null;
+
+            foreach (Pawn p in allPawns)
             {
-                var sitePart = site.parts.FirstOrDefault(p => p.def == this.def);
-                if (sitePart != null && sitePart.things != null && sitePart.things.Any)
+                if (GameComponent.ListAllySpawned.Contains(p.GetUniqueLoadID()))
                 {
-                    Pawn pawn = (Pawn)sitePart.things[0];
-                    if (pawn != null && GameComponent.ListAllySpawned.Contains(pawn.GetUniqueLoadID()) && pawn.health != null)
-                    {
-                        var immunity = pawn.health.hediffSet.GetFirstHediffOfDef(GameComponent.m_ReunionImmunity);
-                        if (immunity != null)
-                        {
-                            pawn.health.RemoveHediff(immunity);
-                        }
-                    }
+                    foundPawn = p;
+                    break;
                 }
+            }
+
+            if (foundPawn != null)
+            {
+                var immunity = foundPawn.health.hediffSet.GetFirstHediffOfDef(GameComponent.ReunionImmunity);
+                if (immunity != null)
+                {
+                    foundPawn.health.RemoveHediff(immunity);
+                    Util.Msg($"PostMapGenerate: Removed immunity from {foundPawn.Name} (found via map search)");
+                }
+            }
+            else
+            {
+                Util.Warn($"PostMapGenerate: Could not find pawn in map {map}");
             }
 
             GameComponent.FlagNextEventReadyForScheduling();

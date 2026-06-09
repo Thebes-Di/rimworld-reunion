@@ -86,6 +86,7 @@ namespace Kyrun.Reunion
         const string SAVE_KEY_LIST_ALLY_AVAILABLE = "Reunion_AllyAvailable";
         const string SAVE_KEY_LIST_ALLY_SPAWNED = "Reunion_AllySpawned";
         const string SAVE_KEY_DICT_ALLY_START_BIO_AGE = "Reunion_AllyStartBioAge";
+        const string SAVE_KEY_IS_QUEST_ACTIVE = "Reunion_IsQuestActive";
 
         public static Settings Settings { get; private set; }
 
@@ -101,6 +102,7 @@ namespace Kyrun.Reunion
             ListAllyAvailable.Clear();
             ListAllySpawned.Clear();
             NextEventTick = 0;
+            IsQuestActive = false;
 #if TESTING
 			/* */
 			const int TOTAL = 5;
@@ -427,6 +429,8 @@ namespace Kyrun.Reunion
         public override void ExposeData()
         {
             Scribe_Values.Look(ref NextEventTick, SAVE_NEXT_EVENT_TICK, 0);
+
+            Scribe_Values.Look(ref IsQuestActive, SAVE_KEY_IS_QUEST_ACTIVE, false);
 
             // Begin unpatching MVCF
             const string MVCF_ID = "legodude17.mvcf";
