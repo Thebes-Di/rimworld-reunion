@@ -4,6 +4,7 @@
         <defName>ReunionImmunity</defName>
         <label>reunion immunity</label>
         <description>Immune to temperature.</description>
+        <hediffClass>HediffWithComps</hediffClass>
         <scenarioCanAdd>false</scenarioCanAdd>
         <everCurableByItem>false</everCurableByItem>
         <comps>
