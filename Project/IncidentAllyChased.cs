@@ -45,10 +45,6 @@ namespace Kyrun.Reunion
                 {
                     QuestGenUtility.AddToOrMakeList(QuestGen.slate, addToList.GetValue(slate), pawn);
                 }
-                if (QuestGen.slate.Get<Map>("map", null, false).Tile.Tile.PrimaryBiome.inVacuum)
-                {
-                    Util.GiveSpaceSuit(pawn);
-                }
                 QuestGen.AddToGeneratedPawns(pawn);
 
                 // Vanilla code: adds the pawn to the World.
@@ -122,6 +118,103 @@ namespace Kyrun.Reunion
 
     public class QuestPart_PawnsArrive : RimWorld.QuestPart_PawnsArrive
     {
+
+        public override void Notify_QuestSignalReceived(Signal signal)
+        {
+            if (signal.tag != inSignal)
+            {
+                return;
+            }
+
+            pawns.RemoveAll((Pawn x) => x.Destroyed);
+            if (mapParent == null || !mapParent.HasMap || !quest.IsParentSuitableForQuest(mapParent))
+            {
+                mapParent = quest.TryFindNewSuitableMapParentForRetarget();
+                if (spawnNear.IsValid)
+                {
+                    spawnNear = IntVec3.Invalid;
+                }
+            }
+
+            if (mapParent == null || !mapParent.HasMap || !pawns.Any())
+            {
+                return;
+            }
+
+            for (int i = 0; i < pawns.Count; i++)
+            {
+                if (joinPlayer && pawns[i].Faction != Faction.OfPlayer)
+                {
+                    pawns[i].SetFaction(Faction.OfPlayer);
+                }
+            }
+
+            IncidentParms incidentParms = new IncidentParms();
+            incidentParms.target = mapParent.Map;
+            incidentParms.spawnCenter = spawnNear;
+            PawnsArrivalModeDef pawnsArrivalModeDef = arrivalMode ?? PawnsArrivalModeDefOf.EdgeWalkIn;
+            if (!pawnsArrivalModeDef.Worker.CanUseOnMap(mapParent.Map))
+            {
+                foreach (PawnsArrivalModeDef item in DefDatabase<PawnsArrivalModeDef>.AllDefsListForReading.InRandomOrder())
+                {
+                    if (item.canBeBackup && item.Worker.CanUseOnMap(mapParent.Map))
+                    {
+                        pawnsArrivalModeDef = item;
+                        break;
+                    }
+                }
+            }
+
+            if (!pawnsArrivalModeDef.Worker.CanUseOnMap(mapParent.Map))
+            {
+                Log.Error($"Tried to do pawns arrive on map {mapParent.Map} but could not find a legal arrival mode, current method: {pawnsArrivalModeDef.defName}");
+                return;
+            }
+
+            pawnsArrivalModeDef.Worker.TryResolveRaidSpawnCenter(incidentParms);
+            //this is the only thing changed
+            if (mapParent.Map.Tile.Tile.PrimaryBiome.inVacuum)
+            {
+                foreach (var pawn in pawns)
+                {
+                    Util.EquipSpaceSuit(pawn);
+                }
+            }
+            pawnsArrivalModeDef.Worker.Arrive(pawns, incidentParms);
+            if (!sendStandardLetter)
+            {
+                return;
+            }
+
+            TaggedString title;
+            TaggedString text;
+            if (joinPlayer && pawns.Count == 1 && pawns[0].RaceProps.Humanlike)
+            {
+                text = "LetterRefugeeJoins".Translate(pawns[0].Named("PAWN"));
+                title = "LetterLabelRefugeeJoins".Translate(pawns[0].Named("PAWN"));
+                PawnRelationUtility.TryAppendRelationsWithColonistsInfo(ref text, ref title, pawns[0]);
+            }
+            else
+            {
+                if (joinPlayer)
+                {
+                    text = "LetterPawnsArriveAndJoin".Translate(GenLabel.ThingsLabel(pawns.Cast<Thing>()));
+                    title = "LetterLabelPawnsArriveAndJoin".Translate();
+                }
+                else
+                {
+                    text = "LetterPawnsArrive".Translate(GenLabel.ThingsLabel(pawns.Cast<Thing>()));
+                    title = "LetterLabelPawnsArrive".Translate();
+                }
+
+                PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter(pawns, ref title, ref text, "LetterRelatedPawnsNeutralGroup".Translate(Faction.OfPlayer.def.pawnsPlural), informEvenIfSeenBefore: true);
+            }
+
+            title = (customLetterLabel.NullOrEmpty() ? title : customLetterLabel.Formatted(title.Named("BASELABEL")));
+            text = (customLetterText.NullOrEmpty() ? text : customLetterText.Formatted(text.Named("BASETEXT")));
+            Find.LetterStack.ReceiveLetter(title, text, customLetterDef ?? LetterDefOf.PositiveEvent, pawns, null, quest);
+        }
+
         public override void Cleanup()
         {
             base.Cleanup(); // there's nothing in the base call (at the moment), but just in case in the future there's something

@@ -28,7 +28,7 @@ namespace Kyrun.Reunion
             //Give vacuum suit if in vacuum
             if (map.Tile.Tile.PrimaryBiome.inVacuum)
             {
-                Util.GiveSpaceSuit(pawn);
+                Util.EquipSpaceSuit(pawn);
             }
             List<Thing> things = new List<Thing>();
             things.Add(pawn);

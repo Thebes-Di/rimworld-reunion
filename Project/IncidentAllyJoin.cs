@@ -26,7 +26,7 @@ namespace Kyrun.Reunion
             //Use transport pod if in space
             if (map.Tile.LayerDef.isSpace) 
             {
-                Util.GiveSpaceSuit(pawn);
+                Util.EquipSpaceSuit(pawn);
                 List<Thing> things = new List<Thing>();
                 things.Add(pawn);
 

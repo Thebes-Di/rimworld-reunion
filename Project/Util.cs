@@ -3,6 +3,7 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 using Verse.Grammar;
+using Verse.Noise;
 
 namespace Kyrun.Reunion
 {
@@ -115,7 +116,7 @@ namespace Kyrun.Reunion
         }
 
         //Give vacuum suit if in vacuum
-        public static void GiveSpaceSuit(Pawn pawn)
+        public static void EquipSpaceSuit(Pawn pawn)
         {
             if (pawn == null || pawn.apparel == null) return;
             if (pawn.GetStatValue(StatDefOf.VacuumResistance) > 0.5f) return;
