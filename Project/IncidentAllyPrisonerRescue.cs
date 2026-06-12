@@ -37,22 +37,12 @@ namespace Kyrun.Reunion
             GameComponent.IsQuestActive = true;
 
             try {
-                //Remove wasLeftBehindStartingPawn when pawn has spawned
-                if (pawn.wasLeftBehindStartingPawn)
-                {
-                    pawn.wasLeftBehindStartingPawn = false;
-                }
 
                 pawn.guest.SetGuestStatus(part.site.Faction, GuestStatus.Prisoner);
                 Util.DressPawnIfCold(pawn, part.site.Tile);
 
                 //Add immune to temperature hediff
-                if (pawn.health != null)
-                {
-                    var immunity = HediffMaker.MakeHediff(GameComponent.ReunionImmunity, pawn);
-                    immunity.Severity = 1f;
-                    pawn.health.AddHediff(immunity);
-                }
+                Util.AddImmunityHediff(pawn);
 
                 part.things = new ThingOwner<Pawn>(part, true, LookMode.Deep);
                 part.things.TryAdd(pawn, true);
@@ -82,31 +72,7 @@ namespace Kyrun.Reunion
             base.PostMapGenerate(map);
 
             //Remove immune to temperature hediff
-            List<Pawn> allPawns = (List<Pawn>)map.mapPawns.AllPawnsSpawned;
-            Pawn foundPawn = null;
-
-            foreach (Pawn p in allPawns)
-            {
-                if (GameComponent.ListAllySpawned.Contains(p.GetUniqueLoadID()))
-                {
-                    foundPawn = p;
-                    break;
-                }
-            }
-
-            if (foundPawn != null)
-            {
-                var immunity = foundPawn.health.hediffSet.GetFirstHediffOfDef(GameComponent.ReunionImmunity);
-                if (immunity != null)
-                {
-                    foundPawn.health.RemoveHediff(immunity);
-                    Util.Msg($"PostMapGenerate: Removed immunity from {foundPawn.Name} (found via map search)");
-                }
-            }
-            else
-            {
-                Util.Warn($"PostMapGenerate: Could not find pawn in map {map}");
-            }
+            Util.RemoveImmunityHediffOnMapGenerate(map);
 
             GameComponent.FlagNextEventReadyForScheduling();
         }

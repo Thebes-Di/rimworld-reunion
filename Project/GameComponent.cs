@@ -292,6 +292,12 @@ namespace Kyrun.Reunion
                 }
             }
 
+            //Remove wasLeftBehindStartingPawn when pawn has spawned
+            if (pawn.wasLeftBehindStartingPawn)
+            {
+                pawn.wasLeftBehindStartingPawn = false;
+            }
+
             pawn.workSettings.EnableAndInitializeIfNotAlreadyInitialized(); // prevent some error which I don't yet understand
         }
 
@@ -315,6 +321,8 @@ namespace Kyrun.Reunion
                         }
                     }
                 }
+                //Remove immune to temperature hediff
+                Util.RemoveImmunityHediff(pawn);
             }
 
             AddPawnToAvailableList(pawn);

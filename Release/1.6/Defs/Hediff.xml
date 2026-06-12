@@ -6,6 +6,10 @@
         <description>Immune to temperature.</description>
         <scenarioCanAdd>false</scenarioCanAdd>
         <everCurableByItem>false</everCurableByItem>
+        <comps>
+            <li Class="HediffCompProperties_DisappearsOnDeath"/>
+        </comps>
+        <isBad>false</isBad>
         <stages>
             <li>
                 <statOffsets>

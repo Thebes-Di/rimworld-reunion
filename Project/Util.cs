@@ -114,6 +114,76 @@ namespace Kyrun.Reunion
                 ));
         }
 
+        //Give vacuum suit if in vacuum
+        public static void GiveSpaceSuit(Pawn pawn)
+        {
+            if (pawn == null || pawn.apparel == null) return;
+            if (pawn.GetStatValue(StatDefOf.VacuumResistance) > 0.5f) return;
+
+            ThingDef vacSuitDef = ThingDefOf.Apparel_Vacsuit;
+            if (vacSuitDef != null)
+            {
+                Apparel vacSuit = (Apparel)ThingMaker.MakeThing(vacSuitDef);
+                pawn.apparel.Wear(vacSuit, dropReplacedApparel: true);
+            }
+
+            ThingDef vacHelmetDef = ThingDefOf.Apparel_VacsuitHelmet;
+            if (vacHelmetDef != null)
+            {
+                Apparel vacHelmet = (Apparel)ThingMaker.MakeThing(vacHelmetDef);
+                pawn.apparel.Wear(vacHelmet, dropReplacedApparel: true);
+            }
+        }
+
+        public static void AddImmunityHediff(Pawn pawn)
+        {
+            if (pawn != null && pawn.health != null)
+            {
+                var immunity = HediffMaker.MakeHediff(GameComponent.ReunionImmunity, pawn);
+                immunity.Severity = 1f;
+                pawn.health.AddHediff(immunity);
+                Util.Msg($"Immunity hediff has added to {pawn.Name}");
+            }
+        }
+
+        public static void RemoveImmunityHediffOnMapGenerate(Map map)
+        {
+            List<Pawn> allPawns = (List<Pawn>)map.mapPawns.AllPawnsSpawned;
+            Pawn foundPawn = null;
+
+            foreach (Pawn pawn in allPawns)
+            {
+                if (GameComponent.ListAllySpawned.Contains(pawn.GetUniqueLoadID()))
+                {
+                    foundPawn = pawn;
+                    break;
+                }
+            }
+
+            if (foundPawn != null)
+            {
+                RemoveImmunityHediff(foundPawn);
+            }
+            else
+            {
+                Util.Warn($"Could not find pawn in map {map}");
+            }
+        }
+
+        public static void RemoveImmunityHediff(Pawn pawn)
+        {
+            if (pawn != null)
+            {
+                var immunity = pawn.health.hediffSet.GetFirstHediffOfDef(GameComponent.ReunionImmunity);
+                if (immunity != null)
+                {
+                    pawn.health.RemoveHediff(immunity);
+                    Util.Msg($"Removed immunity from {pawn.Name}");
+                }
+                else { Util.Msg($"Could not find immunity from {pawn.Name}"); }
+            }
+        }
+
         public static void OnPostDestroyReschedule(SitePart sitePart)
         {
             // If recruited, will have been flagged on map generate: schedule will fire on DoRecruit

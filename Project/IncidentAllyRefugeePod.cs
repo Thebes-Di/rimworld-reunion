@@ -25,6 +25,11 @@ namespace Kyrun.Reunion
 
             var def = IncidentDefs.Reunion_AllyRefugeePod;
             Map map = Current.Game.RandomPlayerHomeMap;
+            //Give vacuum suit if in vacuum
+            if (map.Tile.Tile.PrimaryBiome.inVacuum)
+            {
+                Util.GiveSpaceSuit(pawn);
+            }
             List<Thing> things = new List<Thing>();
             things.Add(pawn);
             IntVec3 intVec = DropCellFinder.RandomDropSpot(map);
@@ -41,12 +46,6 @@ namespace Kyrun.Reunion
             activeTransporterInfo.openDelay = 180;
             activeTransporterInfo.leaveSlag = true;
 			DropPodUtility.MakeDropPodAt(intVec, map, activeTransporterInfo);
-
-            //Remove wasLeftBehindStartingPawn when pawn has spawned
-            if (pawn.wasLeftBehindStartingPawn)
-            {
-                pawn.wasLeftBehindStartingPawn = false;
-            }
 
             GameComponent.TryScheduleNextEvent(ScheduleMode.Forced);
             return true;

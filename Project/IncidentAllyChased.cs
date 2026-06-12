@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using RimWorld;
 using RimWorld.Planet;
 using RimWorld.QuestGen;
 using Verse;
+
 
 namespace Kyrun.Reunion
 {
@@ -43,6 +45,10 @@ namespace Kyrun.Reunion
                 {
                     QuestGenUtility.AddToOrMakeList(QuestGen.slate, addToList.GetValue(slate), pawn);
                 }
+                if (QuestGen.slate.Get<Map>("map", null, false).Tile.Tile.PrimaryBiome.inVacuum)
+                {
+                    Util.GiveSpaceSuit(pawn);
+                }
                 QuestGen.AddToGeneratedPawns(pawn);
 
                 // Vanilla code: adds the pawn to the World.
@@ -70,10 +76,15 @@ namespace Kyrun.Reunion
 
     public class IncidentAllyChased_PawnsArrive : QuestNode_PawnsArrive
     {
+        public SlateRef<IntVec3?> dropSpot;
         protected override void RunInt()
         {
             Slate slate = QuestGen.slate;
-            PawnsArrivalModeDef pawnsArrivalModeDef = this.arrivalMode.GetValue(slate) ?? PawnsArrivalModeDefOf.EdgeWalkIn;
+            Map map = QuestGen.slate.Get<Map>("map", null, false);
+            
+
+            PawnsArrivalModeDef surfaceArrivalMode = this.arrivalMode.GetValue(slate) ?? PawnsArrivalModeDefOf.EdgeWalkIn;
+            PawnsArrivalModeDef pawnsArrivalModeDef = map.Tile.LayerDef.isSpace ? PawnsArrivalModeDefOf.EdgeDrop : surfaceArrivalMode;
 
             // this line is the only thing changed (we are using custom QuestPart)
             var pawnsArrive = new Kyrun.Reunion.QuestPart_PawnsArrive();
@@ -86,6 +97,10 @@ namespace Kyrun.Reunion
             if (pawnsArrivalModeDef.walkIn)
             {
                 pawnsArrive.spawnNear = (this.walkInSpot.GetValue(slate) ?? (QuestGen.slate.Get<IntVec3?>("walkInSpot", null, false) ?? IntVec3.Invalid));
+            }
+            else
+            {
+                pawnsArrive.spawnNear = (this.dropSpot.GetValue(slate) ?? (QuestGen.slate.Get<IntVec3?>("dropSpot", null, false) ?? IntVec3.Invalid));
             }
             if (!this.customLetterLabel.GetValue(slate).NullOrEmpty() || this.customLetterLabelRules.GetValue(slate) != null)
             {
@@ -121,16 +136,6 @@ namespace Kyrun.Reunion
             foreach (var pawn in listToReturn)
             {
                 GameComponent.ReturnToAvailable(pawn);
-            }
-
-            //Remove wasLeftBehindStartingPawn when pawn has spawned
-            foreach (var pawn2 in this.pawns.FindAll((Pawn pawn3) => pawn3.Faction == Faction.OfPlayer && GameComponent.ListAllySpawned.Contains(pawn3.GetUniqueLoadID())))
-            {
-
-                if (pawn2.wasLeftBehindStartingPawn)
-                {
-                    pawn2.wasLeftBehindStartingPawn = false;
-                }
             }
 
             if (quest.State == QuestState.EndedOfferExpired) saveByReference = true;
@@ -177,5 +182,167 @@ namespace Kyrun.Reunion
         }
 
         public bool saveByReference;
+    }
+
+    public class IncidentAllyChased_GetFaction : QuestNode_GetFaction
+    {
+        protected override void RunInt()
+        {
+            Slate slate = QuestGen.slate;
+            Map map = slate.Get<Map>("map");
+            // Add PassLayerFilter check
+            if ((!QuestGen.slate.TryGet<Faction>(storeAs.GetValue(slate), out var var) || !IsGoodFaction(var, QuestGen.slate) || !PassLayerFilter(var, map)) && TryFindFaction(out var, QuestGen.slate, map))
+            {
+                QuestGen.slate.Set(storeAs.GetValue(slate), var);
+                if (!var.Hidden)
+                {
+                    QuestPart_InvolvedFactions questPart_InvolvedFactions = new QuestPart_InvolvedFactions();
+                    questPart_InvolvedFactions.factions.Add(var);
+                    QuestGen.quest.AddPart(questPart_InvolvedFactions);
+                }
+            }
+        }
+
+        private bool PassLayerFilter(Faction faction, Map map)
+        {
+            if (!map.Tile.LayerDef.isSpace)
+                return true;
+
+            if (faction.def.arrivalLayerWhitelist.NullOrEmpty() &&
+                !faction.def.arrivalLayerWhitelist.Contains(map.Tile.LayerDef))
+                return false;
+
+            return true;
+        }
+
+        private bool TryFindFaction(out Faction faction, Slate slate, Map map)
+        {
+            return Find.FactionManager.GetFactions(true)
+                   // Add PassLayerFilter check
+                   .Where(f =>IsGoodFaction(f, slate) && PassLayerFilter(f, map))
+                   .TryRandomElement(out faction);
+        }
+        // Vanilla code
+        private bool IsGoodFaction(Faction faction, Slate slate)
+        {
+            if (faction.Hidden && (allowedHiddenFactions.GetValue(slate) == null || !allowedHiddenFactions.GetValue(slate).Contains(faction)))
+            {
+                return false;
+            }
+
+            if (ofPawn.GetValue(slate) != null && faction != ofPawn.GetValue(slate).Faction)
+            {
+                return false;
+            }
+
+            if (exclude.GetValue(slate) != null && exclude.GetValue(slate).Contains(faction))
+            {
+                return false;
+            }
+
+            if (mustBePermanentEnemy.GetValue(slate) && !faction.def.permanentEnemy)
+            {
+                return false;
+            }
+
+            if (!allowEnemy.GetValue(slate) && faction.HostileTo(Faction.OfPlayer))
+            {
+                return false;
+            }
+
+            if (!allowNeutral.GetValue(slate) && faction.PlayerRelationKind == FactionRelationKind.Neutral)
+            {
+                return false;
+            }
+
+            if (!allowAlly.GetValue(slate) && faction.PlayerRelationKind == FactionRelationKind.Ally)
+            {
+                return false;
+            }
+
+            bool? value = allowPermanentEnemy.GetValue(slate);
+            if (value.HasValue && !value.GetValueOrDefault() && faction.def.permanentEnemy)
+            {
+                return false;
+            }
+
+            if (playerCantBeAttackingCurrently.GetValue(slate) && SettlementUtility.IsPlayerAttackingAnySettlementOf(faction))
+            {
+                return false;
+            }
+
+            if (mustHaveGoodwillRewardsEnabled.GetValue(slate) && !faction.allowGoodwillRewards)
+            {
+                return false;
+            }
+
+            if (peaceTalksCantExist.GetValue(slate))
+            {
+                if (PeaceTalksExist(faction))
+                {
+                    return false;
+                }
+
+                string tag = QuestNode_QuestUnique.GetProcessedTag("PeaceTalks", faction);
+                if (Find.QuestManager.questsInDisplayOrder.Any((Quest q) => q.tags.Contains(tag)))
+                {
+                    return false;
+                }
+            }
+
+            if (leaderMustBeSafe.GetValue(slate) && (faction.leader == null || faction.leader.Spawned || faction.leader.IsPrisoner))
+            {
+                return false;
+            }
+
+            Thing value2 = mustBeHostileToFactionOf.GetValue(slate);
+            if (value2 != null && value2.Faction != null && (value2.Faction == faction || !faction.HostileTo(value2.Faction)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool PeaceTalksExist(Faction faction)
+        {
+            List<PeaceTalks> peaceTalks = Find.WorldObjects.PeaceTalks;
+            for (int i = 0; i < peaceTalks.Count; i++)
+            {
+                if (peaceTalks[i].Faction == faction)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+    }
+
+    public class QuestNode_IsSpaceMap : QuestNode
+    {
+        public QuestNode node;
+        public bool shouldInSpaceMap;
+
+        protected override bool TestRunInt(Slate slate)
+        {
+            Map map = slate.Get<Map>("map");
+
+            return map != null
+                && map.Tile.LayerDef.isSpace == shouldInSpaceMap
+                && (node == null || node.TestRun(slate));
+        }
+
+        protected override void RunInt()
+        {
+            Map map = QuestGen.slate.Get<Map>("map");
+
+            if (map != null &&
+                map.Tile.LayerDef.isSpace == shouldInSpaceMap)
+            {
+                node?.Run();
+            }
+        }
     }
 }

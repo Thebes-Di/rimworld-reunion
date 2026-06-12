@@ -56,6 +56,7 @@
     <defaultCharity>true</defaultCharity>
     <successHistoryEvent MayRequire="Ludeon.RimWorld.Ideology">CharityFulfilled_ThreatReward_Joiner</successHistoryEvent>
     <failedOrExpiredHistoryEvent MayRequire="Ludeon.RimWorld.Ideology">CharityRefused_ThreatReward_Joiner</failedOrExpiredHistoryEvent>
+    <everAcceptableInSpace>true</everAcceptableInSpace>
     <questNameRules>
       <rulesStrings>
         <li>questName->Reunion: [runnerIndef]</li>
@@ -74,15 +75,27 @@
         <li Class="QuestNode_SubScript">
           <def>Util_RandomizePointsChallengeRating</def>
         </li>
-        <li Class="QuestNode_GetMap" />
-
+        <li Class="QuestNode_GetMap" >
+          <canBeSpace>true</canBeSpace>
+        </li>
         <!-- Get a walk-in spot so joiner and raid come from the same spot -->
-        <li Class="QuestNode_GetWalkInSpot" /> 
+        <!--<li Class="QuestNode_GetWalkInSpot" />-->
+
+        <li Class="Kyrun.Reunion.QuestNode_IsSpaceMap">
+            <shouldInSpaceMap>true</shouldInSpaceMap>
+            <node Class="QuestNode_GetDropSpot" />
+        </li>
+
+        <li Class="Kyrun.Reunion.QuestNode_IsSpaceMap">
+            <shouldInSpaceMap>false</shouldInSpaceMap>
+            <node Class="QuestNode_GetWalkInSpot" />
+        </li>
 
         <!-- Get raider faction -->
-        <li Class="QuestNode_GetFaction">
+        <li Class="Kyrun.Reunion.IncidentAllyChased_GetFaction">
           <allowEnemy>true</allowEnemy>
           <mustBePermanentEnemy>true</mustBePermanentEnemy>
+          <allowedHiddenFactions>Salvagers</allowedHiddenFactions>
           <storeAs>enemyFaction</storeAs>
         </li>
 
@@ -113,6 +126,7 @@
               <points>$points</points>
               <enemyFaction>$enemyFaction</enemyFaction>
               <walkInSpot>$walkInSpot</walkInSpot>
+              <dropSpot>$dropSpot</dropSpot>
               <customLetterLabel TKey="LetterLabelCashing">{BASELABEL} chasing [../joiner_nameDef]</customLetterLabel>
               <customLetterText TKey="LetterTextCashing">{BASETEXT}
               \nThe [enemyFaction_pawnsPlural] have come to get [../joiner_nameDef].</customLetterText>

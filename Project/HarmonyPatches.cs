@@ -108,12 +108,8 @@ namespace Kyrun.Reunion
             {
                 if (GameComponent.ListAllySpawned.Contains(recruitee.GetUniqueLoadID()))
                 {
-                    //Remove wasLeftBehindStartingPawn when pawn has spawned
-                    if (recruitee.wasLeftBehindStartingPawn)
-                    {
-                        recruitee.wasLeftBehindStartingPawn = false;
-                    }
-
+                    //Remove immune to temperature hediff
+                    Util.RemoveImmunityHediff(recruitee);
                     GameComponent.TryScheduleNextEvent(ScheduleMode.Forced);
                     //Clear quest active tag
                     GameComponent.IsQuestActive = false;
